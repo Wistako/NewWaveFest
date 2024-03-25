@@ -15,10 +15,12 @@ app.use((req, res, next) => {
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
+const helmet = require('helmet');
 
 // mildware
 
 app.use(cors());
+app.use(helmet());
 // extended false - does not allow nested objects in query strings
 // extended true - allows nested objects in query strings
 app.use(express.urlencoded({ extended: false })); 
@@ -37,7 +39,7 @@ app.get('*', (req, res) => {
 
 const dbURI = process.env.NODE_ENV === 'production'
   ? `mongodb+srv://Wistako:${process.env.DB_PASS}@cluster0.80soovx.mongodb.net/NewWaveDB?retryWrites=true&w=majority&appName=Cluster0`
-  : 'mongodb://localhost:27017/bulletinBoard';
+  : 'mongodb://localhost:27017/NewWaveDB';
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;

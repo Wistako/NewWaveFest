@@ -1,4 +1,5 @@
 const Seat = require('../models/seats.model');
+const sanitize = require('mongo-sanitize');
 
 exports.getAll = async (req, res) => {
   try {
@@ -20,8 +21,9 @@ exports.getOne = async (req, res, next) => {
 
 exports.addNew = async (req, res) => {
   const { day, seat, client, email } = req.body;
+  cleanData = sanitize({ day, seat, client, email });
   try {
-    const newSeat = new Seat({ day, seat, client, email });
+    const newSeat = new Seat(cleanData);
     const seatAlreadyTaken = await Seat.find({ day, seat });
 
     if(seatAlreadyTaken.length) 
